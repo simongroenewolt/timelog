@@ -1,0 +1,36 @@
+body {
+	background-color: transparent;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.nav-buttons {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+}
+
+.prev-button, .next-button {
+	display: block;
+	border: none;
+	margin: 0 auto;
+}
+
+.timelog-summary dl {
+	display: grid;
+	grid-template-columns: max-content auto;
+}
+
+.timelog-summary dt {
+	font-weight: bold;
+	grid-column-start: 1;
+}
+
+.timelog-summary dd {
+	grid-column-start: 2;
+}
+
+.timelog-errors {
+	color: var(--vscode-errorForeground);
+}
