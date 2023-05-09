@@ -41,6 +41,10 @@
         vscode.postMessage({ type: 'moveSelection', value: 'forward' });
     }
 
+    function insertMarker() {
+        vscode.postMessage({ type: 'insertMarker'});
+    }
+
     if (document !== null) {
         const prevButton = document.querySelector('.prev-button')
         if (prevButton !== null) {
@@ -52,6 +56,12 @@
         if (nextButton !== null) {
             nextButton.addEventListener('click', () => {
                 selectForward();
+            });
+        }
+        const markButton = document.querySelector('.mark-button');
+        if (markButton !== null) {
+            markButton.addEventListener('click', () => {
+                insertMarker();
             });
         }
     }
@@ -119,7 +129,9 @@
                 const projectElement = document.createElement('td');
                 const timeElement = document.createElement('td');
                 projectElement.innerText = project.name;
+                projectElement.className = 'project-label';
                 timeElement.innerText = `${toHoursAndMinutes(project.time)}`;
+                timeElement.className = 'project-time';
                 row.appendChild(projectElement);
                 row.appendChild(timeElement);
 

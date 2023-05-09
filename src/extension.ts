@@ -220,6 +220,8 @@ class ProjectsViewProvider implements vscode.WebviewViewProvider {
 				} else {
 					vscode.window.showErrorMessage('Timelog no active editor found');
 				}
+			} else if (data.type === 'insertMarker') {
+				vscode.commands.executeCommand("timelog.placeMark");
 			}
 		});
 	}
@@ -288,20 +290,25 @@ class ProjectsViewProvider implements vscode.WebviewViewProvider {
 				<title>Cat Colors</title>
 			</head>
 			<body>
+				<div class="top-buttons">
+					<button class="mark-button">insert marker</button>
+				</div>
 				<div class="timelog-summary">
 				</div>
-				<div class="nav-buttons">
-				<button class="prev-button">back</button>
-				<button class="next-button">forward</button>
-			</div>
+				<div class="timelog-projects">
 				<table>
 					<thead>
 						<tr><th>project</th><th>time</th></tr>
 					</thead>
 					<tbody class="project-list"></tbody>
 				</table>
+				</div>
 				<div class="timelog-errors">
 				errors content (to be replaced)
+				</div>
+				<div class="nav-buttons">
+					<button class="prev-button">back</button>
+					<button class="next-button">forward</button>
 				</div>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
@@ -358,6 +365,17 @@ function searchSameDay(document: vscode.TextDocument, currentLineIdx: number, ba
 		
 	}
 	return {lineIdx: currentLineIdx, lines};
+}
+
+const simpleStringCompare = (a: string, b: string) => {
+	a = a.toLowerCase();
+	b = b.toLowerCase();
+	if (a > b) { 
+		return 1;
+	} else if ( a < b) {
+		return -1;
+	}
+	return 0;
 }
 
 // This method is called when your extension is activated
@@ -435,7 +453,18 @@ export function activate(context: vscode.ExtensionContext) {
 		const firstDate = processed.firstDate;
 		const lastDate = processed.lastDate;
 		const errors = processed.errors;
-		const viewModel = Object.keys(projects).map(projectName => {
+		const viewModel = Object.keys(projects).sort((a, b) => {
+			if (a.startsWith('*')) {
+				if (b.startsWith('*')) {
+					return simpleStringCompare(a, b);
+				} else {
+					return 1; 
+				}
+			} if (b.startsWith('*')) {
+				return -1;
+			}
+			return simpleStringCompare(a, b);
+		}).map(projectName => {
 			const intervals = projects[projectName];
 			let total = 0;
 			for (const interval of intervals) {
