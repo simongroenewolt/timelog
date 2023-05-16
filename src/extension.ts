@@ -303,9 +303,7 @@ class ProjectsViewProvider implements vscode.WebviewViewProvider {
 					<tbody class="project-list"></tbody>
 				</table>
 				</div>
-				<div class="timelog-errors">
-				errors content (to be replaced)
-				</div>
+				<div class="timelog-errors"></div>
 				<div class="nav-buttons">
 					<button class="prev-button">back</button>
 					<button class="next-button">forward</button>
