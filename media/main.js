@@ -46,7 +46,7 @@
     }
 
     if (document !== null) {
-        const prevButton = document.querySelector('.prev-button')
+        const prevButton = document.querySelector('.prev-button');
         if (prevButton !== null) {
             prevButton.addEventListener('click', () => {
                 selectBackward();
@@ -64,6 +64,23 @@
                 insertMarker();
             });
         }
+
+        // var elements = document.getElementsByClassName("classname");
+
+        // var myFunction = function() {
+        //     var attribute = this.getAttribute("data-myattribute");
+        //     alert(attribute);
+        // };
+
+        // for (var i = 0; i < elements.length; i++) {
+        //     elements[i].addEventListener('click', myFunction, false);
+        // }
+
+        // add 
+        // todo read https://mathiasbynens.be/notes/css-escapes ?
+
+
+
     }
 
     // Handle messages sent from the extension to the webview
@@ -101,6 +118,7 @@
             container.textContent = '';
             for (const project of data.projects) {
                 const row = document.createElement('tr');
+                // add class identifiers for collapse/expand detail rows
                 row.className = 'project-entry';
 
                 // const colorPreview = document.createElement('div');
